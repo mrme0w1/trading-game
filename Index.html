@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Beginner's Market</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    h1 { color: #333; }
+    .market, .portfolio { margin-top: 20px; }
+    button { padding: 10px; margin: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Beginner's Market</h1>
+  <div>
+    <p>Day: <span id="day">1</span></p>
+    <p>Cash: $<span id="cash">1000</span></p>
+    <p>Shares Owned: <span id="shares">0</span></p>
+    <p>Current Price: $<span id="price">100</span></p>
+  </div>
 
+  <div class="market">
+    <button onclick="buy()">Buy 1 Share</button>
+    <button onclick="sell()">Sell 1 Share</button>
+    <button onclick="nextDay()">Next Day</button>
+  </div>
+
+  <script>
+    let day = 1;
+    let cash = 1000;
+    let shares = 0;
+    let price = 100;
+
+    function updateUI() {
+      document.getElementById("day").innerText = day;
+      document.getElementById("cash").innerText = cash.toFixed(2);
+      document.getElementById("shares").innerText = shares;
+      document.getElementById("price").innerText = price.toFixed(2);
+    }
+
+    function buy() {
+      if (cash >= price) {
+        cash -= price;
+        shares += 1;
+        updateUI();
+      } else {
+        alert("Not enough cash!");
+      }
+    }
+
+    function sell() {
+      if (shares > 0) {
+        cash += price;
+        shares -= 1;
+        updateUI();
+      } else {
+        alert("No shares to sell!");
+      }
+    }
+
+    function nextDay() {
+      day += 1;
+      let change = 1 + (Math.random() * 0.2 - 0.1); // price changes -10% to +10%
+      price *= change;
+      price = Math.max(price, 1); // Never drop below $1
+      updateUI();
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>
